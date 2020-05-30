@@ -2,14 +2,16 @@
 <?php session_start(); ?>
 
 
+<?php
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <!--================================================================================
-	Item Name: Materialize - Material Design Admin Template
-	Version: 4.0
-	Author: PIXINVENT
-	Author URL: https://themeforest.net/user/pixinvent/portfolio
-  ================================================================================ -->
+
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -64,7 +66,7 @@
             <ul class="right hide-on-med-and-down">
             
               <li>
-               <a href="#">Home</a>
+               <a href="index.php">Home</a>
               </li>
               <li>
               <a href="#">Profile</a>
@@ -72,11 +74,11 @@
               <li>
               <a href="#">Chat</a>
               </li>
+              <li>
+              <a href="quotes.php?source=add_quote">Add Quote</a>
+              </li>
+              
             </ul>
-            <div class="header-search-wrapper hide-on-med-and-down">
-              <i class="material-icons">search</i>
-              <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize" />
-            </div>
 
             <!-- notifications-dropdown -->
             <ul id="notifications-dropdown" class="dropdown-content">

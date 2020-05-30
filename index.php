@@ -1,16 +1,10 @@
 <?php include "includes/db_connect.php"; ?>
 <?php include "includes/header.inc.php"; ?>
+<?php include "includes/functions.php"; ?>
 
-<?php
-
-
-
-
-
-?>
 
  <!-- START MAIN -->
- <div id="main">
+
 
  <div id="breadcrumbs-wrapper">
           <!-- Search for small screen
@@ -20,102 +14,75 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col s10 m6 l6">
-                <h5 class="breadcrumbs-title">Cards</h5>
+                <h5 class="breadcrumbs-title">Quotes</h5>
                 <ol class="breadcrumbs">
                   <li><a href="index.php">Homepage</a></li>
-                  <li class="active">Quotes</li>
+                  <li class="active"> View all Quotes</li>
                 </ol>
               </div>
-              
             </div>
           </div>
-        </div>
-        
- <div id="card-reveal" class="section">
-            <h4 class="header">Card Reveal</h4>
+    </div>
+
+    
+
+<div id="card-reveal" class="section">
             <div class="row">
-              <div class="col s12">
-                <p>Here you can add a card that reveals more information once clicked.</p>
-              </div>
+            <div class="col s12">
+            <div class="row">
               <div class="col s12 m12 l12">
                 <div class="row">
-                  <div class="col s12 m4 l4">
+    <?php
+
+$query = "SELECT * FROM quotes ORDER BY upload_date DESC";
+$select_quotes_query = mysqli_query($conn, $query);
+
+while($row = mysqli_fetch_array( $select_quotes_query )) {
+
+   $quote = $row['quote'];
+   $quote_author = $row['quote_author'];
+   $quote_image = $row['quote_image'];
+   $username = $row['username'];
+
+
+
+   ?>
+
+                  <div class="col s12 m3 l3">
                     <div class="card">
                       <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="assets/images/gallary/12.png" alt="office">
+                      <?php echo  "<img class='activator' src='assets/images/gallary/$quote_image' alt='office'>" ?>
                       </div>
                       <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title
+                        <span class="card-title activator grey-text text-darken-4"><?php echo $quote_author; ?>
                             <i class="material-icons right">more_vert</i>
                           </span>
-                        <p><a href="#">This is a link</a>
+                        <p>Uploaded by <a href="#"><?php echo $username; ?></a>
                         </p>
                       </div>
                       <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Card Title
+                        <span class="card-title grey-text text-darken-4"><?php echo $quote_author; ?>
                             <i class="material-icons right">close</i>
                           </span>
-                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                        <p><?php echo $quote; ?></p>
                       </div>
                     </div>
-                    <p>
-                      Just add the <code class=" language-markup">card-reveal</code> div with a <code class=" language-markup">span.card-title</code> inside to make this work. Add the class
-                      <code class=" language-markup">activator</code> to an element inside the card to allow it to open the card reveal.
-                    </p>
                   </div>
-                  <div class="col s12 m4 l4">
-                    <div class="card">
-                      <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="assets/images/gallary/19.png">
-                      </div>
-                      <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title
-                            <i class="material-icons right">more_vert</i>
-                          </span>
-                        <p><a href="#!">This is a link</a></p>
-                      </div>
-                      <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Card Title
-                            <i class="material-icons right">close</i>
-                          </span>
-                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                      </div>
-                      <div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                      </div>
-                    </div>
-                    <p>The default state is having the card-reveal go over the card-action.</p>
-                  </div>
-                  <div class="col s12 m4 l4">
-                    <div class="card sticky-action">
-                      <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="assets/images/gallary/21.png">
-                      </div>
-                      <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Card Title
-                            <i class="material-icons right">more_vert</i>
-                          </span>
-                        <p><a href="#!">This is a link</a></p>
-                      </div>
-                      <div class="card-action">
-                        <a href="#">This is a link</a>
-                        <a href="#">This is a link</a>
-                      </div>
-                      <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Card Title
-                            <i class="material-icons right">close</i>
-                          </span>
-                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
-                      </div>
-                    </div>
-                    <p>You can make your card-action always visible by adding the class <code class=" language-markup">sticky-action</code> to the overall card.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+              
+        
+<?php }
+
+confirmQuery($select_quotes_query);
+
+?>
+        </div>
+        </div>
+        </div>
           </div>
-</div>
-    <!-- END MAIN -->
+        </div>
+        </div>
+    
+
 
 <?php include "includes/footer.inc.php"; ?>
