@@ -1,11 +1,7 @@
 <?php ob_start(); ?>
-<?php session_start(); ?>
 
 
 <?php
-
-
-
 
 ?>
 
@@ -36,6 +32,13 @@
     <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
     <link href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet">
     <link href="assets/vendors/flag-icon/css/flag-icon.min.css" type="text/css" rel="stylesheet">
+
+    <style>
+      div.form_size {
+        max-width: 800px;
+        padding-left: 150px;
+      }
+    </style>
   </head>
   <body>
     <!-- Start Page Loading -->
@@ -69,7 +72,7 @@
                <a href="index.php">Home</a>
               </li>
               <li>
-              <a href="#">Profile</a>
+              <a href="profile.php?profile_id=1&profile">Profile</a>
               </li>
               <li>
               <a href="#">Chat</a>

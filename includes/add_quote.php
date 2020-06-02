@@ -1,27 +1,69 @@
-<?php
 
+<?php
+	//default value for inputs
+	$quote = $quote_author = $username ='';
+	$errors = $arrayName = array('author'=>'', 'quote'=>'', 'username'=>'');
+
+		
 if(isset($_POST['upload'])) {
 
-    $quote_author = $_POST['quote_author'];
-    $quote = $_POST['quote'];
-    $username = $_POST['username'];
+  // check for author
+  if (empty($_POST['quote_author'])) {
+		$errors['author'] = 'Field cannot be empty';
+	} else{
+    if(!function_exists('escapeInjection')) {
+      $quote_author = ucwords(escapeInjection($_POST['quote_author']));
+    }
+		
+			if(!preg_match('/^([a-zA-Z\s]+)(\s*[a-zA-Z\s]*)*$/', $quote_author)){
+				$errors['author'] = 'Name cannot contain numbers or symbols';
+			}
+		}
 
-    $quote_image = $_FILES['quote_image']['name'];
-    $quote_image_temp = $_FILES['quote_image']['tmp_name'];
+		if (empty($_POST['quote'])) {
+		$errors['quote'] = 'Field cannot be empty';
+	} else {
+    if(!function_exists('escapeInjection')) {
+      $quote = ucfirst(escapeInjection($_POST['quote']));
+    }
+			if(strlen($quote) > 255){
+				$errors['quote'] = 'max length exceeded';
+			}
+		}
 
-    $quote_tags = $_POST['quote_tags'];
-    
-    
+		// check username
+	if (empty($_POST['username'])) {
+		$errors['username'] = 'Field cannot be empty';
+	} else{
 
-    move_uploaded_file($quote_image_temp, "images/$quote_image");
+    if(!function_exists('escapeInjection')) {
+      $username = escapeInjection($_POST['username']);
+    }
+		$username = escapeInjection($_POST['username']);
+			if(!preg_match('/^[a-zA-Z0-9]+$/', $username)){
+			$errors['username']	= 'Username cannot have spaces or contain symbols';
+			}
+	}
 
+  if(!function_exists('escapeInjection')) {
+    $quote_tags = escapeInjection($_POST['quote_tags']);
+  }
+  
+  $quote_image = $_FILES['quote_image']['name'];
+  $quote_image_temp = $_FILES['quote_image']['tmp_name'];
+  move_uploaded_file($quote_image_temp, "images/$quote_image");
+
+  if (!array_filter($errors)) {
     $query = "INSERT INTO quotes (quote, quote_author, quote_image, quote_tags, username) ";
-    $query .= "VALUES('{$quote}','{$quote_author}','{$quote_image}',
-    '{$quote_tags}','{$username}') ";
+    $query .= "VALUES('{$quote}','{$quote_author}','{$quote_image}', '{$quote_tags}','{$username}') ";
 
     $create_quote_query = mysqli_query($conn, $query);
 
     confirmQuery($create_quote_query);
+
+    header("Location: index.php");
+
+  }
 
 }
 
@@ -54,15 +96,16 @@ if(isset($_POST['upload'])) {
     <div class="container">
         <div class="section">
     <div class="col s10 m10 l6">
-                  <div class="card-panel">
+                  <div class="card-panel hoverable form_size">
                     <h4 class="center-align">Add Quote</h4>
                     <div class="row">
-                      <form class="col s8" action="" method="POST" enctype="multipart/form-data">
+                      <form class="col s9" action="quotes.php?source=add_quote" method="POST" enctype="multipart/form-data">
                         <div class="row">
                           <div class="input-field col s12">
                             <i class="material-icons prefix">account_box</i>
-                            <input id="name4" type="text" name="quote_author" class="validate">
+                            <input id="name4" type="text" name="quote_author" value="<?php echo htmlspecialchars($quote_author); ?>" class="validate">
                             <label for="first_name">Quote Author</label>
+                            <div class="red-text"><?php echo $errors['author']; ?></div>
                           </div>
                         </div>
                         
@@ -76,15 +119,17 @@ if(isset($_POST['upload'])) {
                         <div class="row">
                           <div class="input-field col s12">
                             <i class="material-icons prefix">question_answer</i>
-                            <textarea id="message4" name="quote" class="materialize-textarea validate" length="120"></textarea>
+                            <textarea id="message4" name="quote" value="<?php echo htmlspecialchars($quote); ?>" class="materialize-textarea validate" length="120"></textarea>
                             <label for="message">Quote</label>
+                            <div class="red-text"><?php echo $errors['quote']; ?></div>
                           </div>
                         </div>
                         <div class="row">
                           <div class="input-field col s12">
                             <i class="material-icons prefix">account_circle</i>
-                            <input id="email4" type="text" name="username" class="validate">
+                            <input id="email4" type="text" name="username" value="<?php echo htmlspecialchars($username); ?>" class="validate">
                             <label for="email">Username</label>
+                            <div class="red-text"><?php echo $errors['username']; ?></div>
                           </div>
                         </div>
 

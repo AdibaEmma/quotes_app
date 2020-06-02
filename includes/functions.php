@@ -13,10 +13,10 @@ function confirmQuery($result) {
 
 }
 
-function escapeInjection() {
+function escapeInjection($string) {
 
     global $conn;
-    return mysqli_real_escape_string($conn, trim($string));
+    return mysqli_real_escape_string($conn, trim(stripslashes(htmlspecialchars($string))));
 }
 
 // function emailValidation() {

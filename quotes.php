@@ -1,6 +1,6 @@
 <?php include "includes/db_connect.php"; ?>
 <?php include "includes/header.inc.php"; ?>
-<?php include "includes/functions.php"; ?>
+<?php include_once "includes/functions.php"; ?>
 
 <?php
 
@@ -23,13 +23,13 @@ switch ($source) {
         
 
     default:
-    include "index.php";
+        header("Location: index.php");
         break;
 }
 
+
+
 ?>
-
-
 
 
 
