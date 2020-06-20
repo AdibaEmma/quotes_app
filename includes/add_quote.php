@@ -6,16 +6,15 @@
 
 		
 if(isset($_POST['upload'])) {
+  
 
   // check for author
   if (empty($_POST['quote_author'])) {
 		$errors['author'] = 'Field cannot be empty';
 	} else{
-    if(!function_exists('escapeInjection')) {
       $quote_author = ucwords(escapeInjection($_POST['quote_author']));
-    }
-		
-			if(!preg_match('/^([a-zA-Z\s]+)(\s*[a-zA-Z\s]*)*$/', $quote_author)){
+  
+			if(!preg_match('/(?=^.{0,40}$)^[a-zA-Z-]+\s[a-zA-Z-]+$/', $quote_author)){
 				$errors['author'] = 'Name cannot contain numbers or symbols';
 			}
 		}
@@ -23,9 +22,7 @@ if(isset($_POST['upload'])) {
 		if (empty($_POST['quote'])) {
 		$errors['quote'] = 'Field cannot be empty';
 	} else {
-    if(!function_exists('escapeInjection')) {
       $quote = ucfirst(escapeInjection($_POST['quote']));
-    }
 			if(strlen($quote) > 255){
 				$errors['quote'] = 'max length exceeded';
 			}
@@ -35,27 +32,35 @@ if(isset($_POST['upload'])) {
 	if (empty($_POST['username'])) {
 		$errors['username'] = 'Field cannot be empty';
 	} else{
-
-    if(!function_exists('escapeInjection')) {
-      $username = escapeInjection($_POST['username']);
-    }
 		$username = escapeInjection($_POST['username']);
 			if(!preg_match('/^[a-zA-Z0-9]+$/', $username)){
 			$errors['username']	= 'Username cannot have spaces or contain symbols';
 			}
 	}
 
-  if(!function_exists('escapeInjection')) {
-    $quote_tags = escapeInjection($_POST['quote_tags']);
-  }
+  $quote_tags = escapeInjection($_POST['quote_tags']);
   
   $quote_image = $_FILES['quote_image']['name'];
   $quote_image_temp = $_FILES['quote_image']['tmp_name'];
   move_uploaded_file($quote_image_temp, "images/$quote_image");
 
+  if(isset($_SESSION['user_id'])) {
+
+    $user_id = $_SESSION['user_id']; 
+
+    $query = "SELECT * FROM users";
+    $username_query = mysqli_query($conn, $query);
+
+    while($row = mysqli_fetch_assoc($username_query)) {
+
+    $username = $row['username'];
+    }
+
+  }
+ 
   if (!array_filter($errors)) {
-    $query = "INSERT INTO quotes (quote, quote_author, quote_image, quote_tags, username) ";
-    $query .= "VALUES('{$quote}','{$quote_author}','{$quote_image}', '{$quote_tags}','{$username}') ";
+    $query = "INSERT INTO quotes (user_id, quote, quote_author, quote_image, quote_tags, username) ";
+    $query .= "VALUES({$user_id},'{$quote}','{$quote_author}','{$quote_image}', '{$quote_tags}','{$username}') ";
 
     $create_quote_query = mysqli_query($conn, $query);
 
@@ -64,7 +69,7 @@ if(isset($_POST['upload'])) {
     header("Location: index.php");
 
   }
-
+  
 }
 
 

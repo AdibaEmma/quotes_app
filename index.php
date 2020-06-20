@@ -17,8 +17,6 @@ if(isset($_GET['delete'])) {
 
 
  <!-- START MAIN -->
-
-
  <div id="breadcrumbs-wrapper">
           <!-- Search for small screen
           <div class="header-search-wrapper grey lighten-2 hide-on-large-only">
@@ -74,10 +72,6 @@ while($row = mysqli_fetch_array( $select_quotes_query )) {
                             
                           </span>
                      <?php echo "<p>Uploaded by <a href='#'>{$username}</a><span class='right'>[{$upload_date}]</span></p>"; ?>
-                        <span class="center">
-                          <a class="btn grey z-depth-0" href="quotes.php?source=edit_quote&quote_id=<?php echo $quote_id; ?>">Edit</a>
-                          <a class="btn z-depth-0" onClick="javascript: return confirm('Are you sure you want to delete?');" href="index.php?delete=<?php echo $quote_id; ?>">Delete</a>
-                        </span>
                       </div>
                       <div class="card-reveal">
                         <span class="card-title grey-text text-darken-4"><?php echo $quote_author; ?>

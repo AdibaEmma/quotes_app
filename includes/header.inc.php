@@ -1,6 +1,5 @@
 <?php ob_start(); ?>
-
-
+<?php session_start(); ?>
 <?php
 
 ?>
@@ -38,6 +37,36 @@
         max-width: 800px;
         padding-left: 150px;
       }
+
+      .btn {
+        font-size: 12px !important;
+      }
+
+      div.login {
+        max-width: 45%;
+        position: relative;
+        top: 10px;
+        left: 350px;
+        bottom: 200px;
+      }
+
+      div.login form {
+        margin-right: none !important;
+        margin-left: none !important;
+      } 
+
+
+      div.edit_profile {
+        position: relative;
+        bottom: 423px;
+        left: 300px !important;
+      }
+
+
+      li.welcome_address {
+          font-size: 22px;
+          font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -66,21 +95,70 @@
               </li>
             </ul>
             
+
             <ul class="right hide-on-med-and-down">
             
+                <?php 
+
+                if(isset($_SESSION['user_id'])) {
+
+                $query = "SELECT * FROM users";
+                $username_query = mysqli_query($conn, $query);
+
+                while($row = mysqli_fetch_assoc($username_query)) {
+
+                $username = $row['username'];
+                }
+
+                echo "<li class='welcome_address'>Welcome {$username}</li>";
+
+                } else {
+                 
+                  echo "<li class='welcome_address'>Welcome Guest</li>";
+
+                }
+
+                ?>
+
               <li>
                <a href="index.php">Home</a>
               </li>
-              <li>
-              <a href="profile.php?profile_id=1&profile">Profile</a>
-              </li>
+             
+              <?php 
+                if(isset($_SESSION['user_id'])) {
+
+                  $user_id = $_SESSION['user_id'];
+                  echo  "<li><a href='profile.php?profile_id=$user_id'>Profile</a></li>";
+
+                  } 
+               
+               ?>
+
+
               <li>
               <a href="#">Chat</a>
               </li>
+
+              <?php 
+                if(isset($_SESSION['user_id'])) {
+
+                  echo "<li><a href='quotes.php?source=add_quote'>Add Quote</a></li>";
+                  
+                }
+                ?>
+
+              <?php 
+              if(isset($_SESSION['user_id'])) { ?>
               <li>
-              <a href="quotes.php?source=add_quote">Add Quote</a>
+              <a class="btn waves-effect waves-light" href="logout.php">Logout</a>
               </li>
-              
+              <?php } else { ?>
+
+                <li>
+              <a class="btn waves-effect waves-light" href="login.php">Login/SignUp</a>
+              </li>
+                
+            <?php  } ?>
             </ul>
 
             <!-- notifications-dropdown -->
