@@ -1,37 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-  <!--================================================================================
-	Item Name: Materialize - Material Design Admin Template
-	Version: 4.0
-	Author: PIXINVENT
-	Author URL: https://themeforest.net/user/pixinvent/portfolio
-  ================================================================================ -->
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="description" content="Materialize is a Material Design Admin Template,It's modern, responsive and based on Material Design by Google. ">
-    <meta name="keywords" content="materialize, admin template, dashboard template, flat admin template, responsive admin template,">
-    <title>Super Quotes App</title>
-    <!-- Favicons-->
-    <link rel="icon" href="../assets/images/favicon/favicon-32x32.png" sizes="32x32">
-    <!-- Favicons-->
-    <link rel="apple-touch-icon-precomposed" href="../assets/images/favicon/apple-touch-icon-152x152.png">
-    <!-- For iPhone -->
-    <meta name="msapplication-TileColor" content="#00bcd4">
-    <meta name="msapplication-TileImage" content="../assets/images/favicon/mstile-144x144.png">
-    <!-- For Windows Phone -->
-    <!-- CORE CSS-->
-    <link href="../assets/css//materialize.css" type="text/css" rel="stylesheet">
-    <link href="../assets/css//style.css" type="text/css" rel="stylesheet">
-    <!-- Custome CSS-->
-    <link href="../assets/css/custom/custom.css" type="text/css" rel="stylesheet">
-    <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
-    <link href="../assets/vendors/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet">
-    <link href="../assets/vendors/flag-icon/css/flag-icon.min.css" type="text/css" rel="stylesheet">
-  </head>
-  <body>
+<?php include "includes/header.inc.php"; ?>
+<?php include "../includes/db_connect.php"; ?>
+
+<?php 
+
+// if ($_SESSION['user_role'] == "subscriber") {
+
+//     header("Location: ../index.php");
+// }
+
+if(isset($_GET['profile_id'])) {
+
+  $user_id = $_GET['profile_id'];
+
+  $query = "SELECT * FROM quotes";
+  $select_all_quotes = mysqli_query($conn, $query);
+
+  $total_quotes = mysqli_num_rows($select_all_quotes);
+
+  while($row = mysqli_fetch_assoc( $select_all_quotes )) {
+
+      $quote = $row['quote'];
+      $quote_author = $row['quote_author'];
+      $quote_image = $row['quote_image'];
+      $uploaded_by = $row['username'];
+      $upload_date = $row['upload_date'];
+
+  }
+
+  
+}
+
+
+
+?>
     <!-- Start Page Loading -->
     <div id="loader-wrapper">
       <div id="loader"></div>
@@ -42,139 +43,9 @@
     <!-- //////////////////////////////////////////////////////////////////////////// -->
     <!-- START HEADER -->
     <header id="header" class="page-topbar">
+
       <!-- start header nav-->
-      <div class="navbar-fixed">
-        <nav class="navbar-color gradient-45deg-light-blue-cyan">
-          <div class="nav-wrapper">
-            <ul class="left">
-              <li>
-                <h1 class="logo-wrapper">
-                  <a href="index.html" class="brand-logo darken-1">
-                    <img src="assets/images/logo/materialize-logo.png" alt="materialize logo">
-                    <span class="logo-text hide-on-med-and-down">Materialize</span>
-                  </a>
-                </h1>
-              </li>
-            </ul>
-            <div class="header-search-wrapper hide-on-med-and-down">
-              <i class="material-icons">search</i>
-              <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize" />
-            </div>
-            <ul class="right hide-on-med-and-down">
-              <li>
-                <a href="javascript:void(0);" class="waves-effect waves-block waves-light translation-button" data-activates="translation-dropdown">
-                  <span class="flag-icon flag-icon-gb"></span>
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen">
-                  <i class="material-icons">settings_overscan</i>
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0);" class="waves-effect waves-block waves-light notification-button" data-activates="notifications-dropdown">
-                  <i class="material-icons">notifications_none
-                    <small class="notification-badge pink accent-2">5</small>
-                  </i>
-                </a>
-              </li>
-              <li>
-                <a href="javascript:void(0);" class="waves-effect waves-block waves-light profile-button" data-activates="profile-dropdown">
-                  <span class="avatar-status avatar-online">
-                    <img src="assets/images/avatar/avatar-7.png" alt="avatar">
-                    <i></i>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a href="#" data-activates="chat-out" class="waves-effect waves-block waves-light chat-collapse">
-                  <i class="material-icons">format_indent_increase</i>
-                </a>
-              </li>
-            </ul>
-            <!-- translation-button -->
-            <ul id="translation-dropdown" class="dropdown-content">
-              <li>
-                <a href="#!" class="grey-text text-darken-1">
-                  <i class="flag-icon flag-icon-gb"></i> English</a>
-              </li>
-              <li>
-                <a href="#!" class="grey-text text-darken-1">
-                  <i class="flag-icon flag-icon-fr"></i> French</a>
-              </li>
-              <li>
-                <a href="#!" class="grey-text text-darken-1">
-                  <i class="flag-icon flag-icon-cn"></i> Chinese</a>
-              </li>
-              <li>
-                <a href="#!" class="grey-text text-darken-1">
-                  <i class="flag-icon flag-icon-de"></i> German</a>
-              </li>
-            </ul>
-            <!-- notifications-dropdown -->
-            <ul id="notifications-dropdown" class="dropdown-content">
-              <li>
-                <h6>NOTIFICATIONS
-                  <span class="new badge">5</span>
-                </h6>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle cyan small">add_shopping_cart</span> A new order has been placed!</a>
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
-              </li>
-              <li>
-                <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle red small">stars</span> Completed the task</a>
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
-              </li>
-              <li>
-                <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle teal small">settings</span> Settings updated</a>
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
-              </li>
-              <li>
-                <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle deep-orange small">today</span> Director meeting started</a>
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
-              </li>
-              <li>
-                <a href="#!" class="grey-text text-darken-2">
-                  <span class="material-icons icon-bg-circle amber small">trending_up</span> Generate monthly report</a>
-                <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
-              </li>
-            </ul>
-            <!-- profile-dropdown -->
-            <ul id="profile-dropdown" class="dropdown-content">
-              <li>
-                <a href="#" class="grey-text text-darken-1">
-                  <i class="material-icons">face</i> Profile</a>
-              </li>
-              <li>
-                <a href="#" class="grey-text text-darken-1">
-                  <i class="material-icons">settings</i> Settings</a>
-              </li>
-              <li>
-                <a href="#" class="grey-text text-darken-1">
-                  <i class="material-icons">live_help</i> Help</a>
-              </li>
-              <li class="divider"></li>
-              <li>
-                <a href="#" class="grey-text text-darken-1">
-                  <i class="material-icons">lock_outline</i> Lock</a>
-              </li>
-              <li>
-                <a href="#" class="grey-text text-darken-1">
-                  <i class="material-icons">keyboard_tab</i> Logout</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-      <!-- end header nav-->
-    </header>
-    <!-- END HEADER -->
+     <?php include "includes/navigation.inc.php"; ?>
     <!-- //////////////////////////////////////////////////////////////////////////// -->
     <!-- START MAIN -->
     <div id="main">
@@ -186,33 +57,10 @@
             <li class="user-details cyan darken-2">
               <div class="row">
                 <div class="col col s4 m4 l4">
-                  <img src="assets/images/avatar/avatar-7.png" alt="" class="circle responsive-img valign profile-image cyan">
+                  <img src="../assets/images/avatar/avatar-7.png" alt="" class="circle responsive-img valign profile-image cyan">
                 </div>
                 <div class="col col s8 m8 l8">
-                  <ul id="profile-dropdown-nav" class="dropdown-content">
-                    <li>
-                      <a href="#" class="grey-text text-darken-1">
-                        <i class="material-icons">face</i> Profile</a>
-                    </li>
-                    <li>
-                      <a href="#" class="grey-text text-darken-1">
-                        <i class="material-icons">settings</i> Settings</a>
-                    </li>
-                    <li>
-                      <a href="#" class="grey-text text-darken-1">
-                        <i class="material-icons">live_help</i> Help</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                      <a href="#" class="grey-text text-darken-1">
-                        <i class="material-icons">lock_outline</i> Lock</a>
-                    </li>
-                    <li>
-                      <a href="#" class="grey-text text-darken-1">
-                        <i class="material-icons">keyboard_tab</i> Logout</a>
-                    </li>
-                  </ul>
-                  <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown-nav">John Doe<i class="mdi-navigation-arrow-drop-down right"></i></a>
+                  <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="index.php?profile_id=<?php echo $user_id; ?>" >John Doe<i class="mdi-navigation-arrow-drop-down right"></i></a>
                   <p class="user-roal">Administrator</p>
                 </div>
               </div>
@@ -226,52 +74,32 @@
                     </a>
                 </li>
                 <li class="bold">
-                  <a href="cards-basic.html" class="waves-effect waves-cyan">
-                      <i class="material-icons">cast</i>
-                      <span class="nav-text">Cards</span>
-                    </a>
-                </li>
-                <li class="bold">
-                  <a href="ui-basic-buttons.html" class="waves-effect waves-cyan">
-                      <i class="material-icons">insert_link</i>
-                      <span class="nav-text">Buttons</span>
-                    </a>
-                </li>
-                <li class="bold">
-                  <a href="form-layouts.html" class="waves-effect waves-cyan">
+                  <a href="profile.php" class="waves-effect waves-cyan">
                       <i class="material-icons">format_color_text</i>
                       <span class="nav-text">Forms</span>
                     </a>
                 </li>
                 <li class="bold">
-                  <a href="css-typography.html" class="waves-effect waves-cyan">
+                  <a href="view_all_quotes.php" class="waves-effect waves-cyan">
+                      <i class="material-icons">cast</i>
+                      <span class="nav-text">Cards</span>
+                    </a>
+                </li>
+                
+                <li class="bold">
+                  <a href="comments.php" class="waves-effect waves-cyan">
                       <i class="material-icons">format_size</i>
                       <span class="nav-text">Typography</span>
                     </a>
                 </li>
-                <li class="bold">
-                  <a href="css-color.html" class="waves-effect waves-cyan">
-                      <i class="material-icons">invert_colors</i>
-                      <span class="nav-text">Color</span>
-                    </a>
-                </li>
+      
                 <li class="bold">
                   <a href="table-basic.html" class="waves-effect waves-cyan">
                       <i class="material-icons">border_all</i>
                       <span class="nav-text">Table</span>
                     </a>
                 </li>
-                <li class="bold">
-                  <a href="ui-icons.html" class="waves-effect waves-cyan">
-                    <i class="material-icons">lightbulb_outline</i>
-                    <span class="nav-text">Icons</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="btn waves-effect waves-light gradient-45deg-red-pink" href="https://pixinvent.com/materialize-material-design-admin-template/landing/" target="_blank">
-                    <i class="material-icons white-text">file_upload</i>Upgrade to Pro!
-                  </a>
-                </li>
+                
               </ul>
             </li>
           </ul>
@@ -293,12 +121,12 @@
                     <div class="padding-4">
                       <div class="col s7 m7">
                         <i class="material-icons background-round mt-5">add_shopping_cart</i>
-                        <p>Orders</p>
+                        <p>Quotes</p>
                       </div>
                       <div class="col s5 m5 right-align">
                         <h5 class="mb-0">690</h5>
                         <p class="no-margin">New</p>
-                        <p>6,00,00</p>
+                        <p><?php echo $total_quotes; ?></p>
                       </div>
                     </div>
                   </div>
@@ -307,8 +135,8 @@
                   <div class="card gradient-45deg-red-pink gradient-shadow min-height-100 white-text">
                     <div class="padding-4">
                       <div class="col s7 m7">
-                        <i class="material-icons background-round mt-5">perm_identity</i>
-                        <p>Clients</p>
+                        <i class="material-icons background-round mt-5">format_size</i>
+                        <p>Comments</p>
                       </div>
                       <div class="col s5 m5 right-align">
                         <h5 class="mb-0">1885</h5>
@@ -322,8 +150,8 @@
                   <div class="card gradient-45deg-amber-amber gradient-shadow min-height-100 white-text">
                     <div class="padding-4">
                       <div class="col s7 m7">
-                        <i class="material-icons background-round mt-5">timeline</i>
-                        <p>Sales</p>
+                        <i class="material-icons background-round mt-5">perm_identity</i>
+                        <p>Users</p>
                       </div>
                       <div class="col s5 m5 right-align">
                         <h5 class="mb-0">80%</h5>
@@ -338,7 +166,7 @@
                     <div class="padding-4">
                       <div class="col s7 m7">
                         <i class="material-icons background-round mt-5">attach_money</i>
-                        <p>Profit</p>
+                        <p>Admins</p>
                       </div>
                       <div class="col s5 m5 right-align">
                         <h5 class="mb-0">$890</h5>
@@ -350,206 +178,6 @@
                 </div>
               </div>
             </div>
-            <!-- <div id="card-stats">--> 
-             <!-- <div class="row"> -->
-            <!--    <div class="col s12 m6 l3">-->
-            <!--      <div class="card">-->
-            <!--        <div class="card-content cyan white-text">-->
-            <!--          <p class="card-stats-title">-->
-            <!--            <i class="material-icons">person_outline</i> New Clients</p>-->
-            <!--          <h4 class="card-stats-number">566</h4>-->
-            <!--          <p class="card-stats-compare">-->
-            <!--            <i class="material-icons">keyboard_arrow_up</i> 15%-->
-            <!--            <span class="cyan text text-lighten-5">from yesterday</span>-->
-            <!--          </p>-->
-            <!--        </div>-->
-            <!--      </div>-->
-            <!--    </div>-->
-            <!--    <div class="col s12 m6 l3">-->
-            <!--      <div class="card">-->
-            <!--        <div class="card-content red accent-2 white-text">-->
-            <!--          <p class="card-stats-title">-->
-            <!--            <i class="material-icons">attach_money</i>Total Sales</p>-->
-            <!--          <h4 class="card-stats-number">$8990.63</h4>-->
-            <!--          <p class="card-stats-compare">-->
-            <!--            <i class="material-icons">keyboard_arrow_up</i> 70%-->
-            <!--            <span class="red-text text-lighten-5">last month</span>-->
-            <!--          </p>-->
-            <!--        </div>-->
-            <!--      </div>-->
-            <!--    </div>-->
-            <!--    <div class="col s12 m6 l3">-->
-            <!--      <div class="card">-->
-            <!--        <div class="card-content teal accent-4 white-text">-->
-            <!--          <p class="card-stats-title">-->
-            <!--            <i class="material-icons">trending_up</i> Today Profit</p>-->
-            <!--          <h4 class="card-stats-number">$806.52</h4>-->
-            <!--          <p class="card-stats-compare">-->
-            <!--            <i class="material-icons">keyboard_arrow_up</i> 80%-->
-            <!--            <span class="teal-text text-lighten-5">from yesterday</span>-->
-            <!--          </p>-->
-            <!--        </div>-->
-                    
-            <!--      </div>-->
-            <!--    </div>-->
-            <!--    <div class="col s12 m6 l3">-->
-            <!--      <div class="card">-->
-            <!--        <div class="card-content deep-orange accent-2 white-text">-->
-            <!--          <p class="card-stats-title">-->
-            <!--            <i class="material-icons">content_copy</i> New Invoice</p>-->
-            <!--          <h4 class="card-stats-number">1806</h4>-->
-            <!--          <p class="card-stats-compare">-->
-            <!--            <i class="material-icons">keyboard_arrow_down</i> 3%-->
-            <!--            <span class="deep-orange-text text-lighten-5">from last month</span>-->
-            <!--          </p>-->
-            <!--        </div>-->
-            <!--      </div>-->
-            <!--    </div>-->
-            <!--  </div>-->
-            <!--</div>-->
-            <!--card stats end -->
-            
-            <!--card widgets start -->
-            <div id="card-widgets">
-              <div class="row">
-                <div class="col s12 m4 l4">
-                  <ul id="task-card" class="collection with-header">
-                    <li class="collection-header teal accent-4">
-                      <h4 class="task-card-title">My Task</h4>
-                      <p class="task-card-date">Sept 16, 2017</p>
-                    </li>
-                    <li class="collection-item dismissable">
-                      <input type="checkbox" id="task1" />
-                      <label for="task1">Create Mobile App UI.
-                        <a href="#" class="secondary-content">
-                          <span class="ultra-small">Today</span>
-                        </a>
-                      </label>
-                      <span class="task-cat cyan">Mobile App</span>
-                    </li>
-                    <li class="collection-item dismissable">
-                      <input type="checkbox" id="task2" />
-                      <label for="task2">Check the new API standerds.
-                        <a href="#" class="secondary-content">
-                          <span class="ultra-small">Monday</span>
-                        </a>
-                      </label>
-                      <span class="task-cat red accent-2">Web API</span>
-                    </li>
-                    <li class="collection-item dismissable">
-                      <input type="checkbox" id="task3" checked="checked" />
-                      <label for="task3">Check the new Mockup of ABC.
-                        <a href="#" class="secondary-content">
-                          <span class="ultra-small">Wednesday</span>
-                        </a>
-                      </label>
-                      <span class="task-cat teal accent-4">Mockup</span>
-                    </li>
-                    <li class="collection-item dismissable">
-                      <input type="checkbox" id="task4" checked="checked" disabled="disabled" />
-                      <label for="task4">I did it !</label>
-                      <span class="task-cat deep-orange accent-2">Mobile App</span>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col s12 m12 l4">
-                  <div id="flight-card" class="card">
-                    <div class="card-header deep-orange accent-2">
-                      <div class="card-title">
-                        <h4 class="flight-card-title">Flight</h4>
-                        <p class="flight-card-date">June 18, Thu 04:50</p>
-                      </div>
-                    </div>
-                    <div class="card-content-bg white-text">
-                      <div class="card-content">
-                        <div class="row flight-state-wrapper">
-                          <div class="col s5 m5 l5 center-align">
-                            <div class="flight-state">
-                              <h4 class="margin">LDN</h4>
-                              <p class="ultra-small">London</p>
-                            </div>
-                          </div>
-                          <div class="col s2 m2 l2 center-align">
-                            <i class="material-icons flight-icon">local_airport</i>
-                          </div>
-                          <div class="col s5 m5 l5 center-align">
-                            <div class="flight-state">
-                              <h4 class="margin">SFO</h4>
-                              <p class="ultra-small">San Francisco</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col s6 m6 l6 center-align">
-                            <div class="flight-info">
-                              <p class="small">
-                                <span class="grey-text text-lighten-4">Depart:</span> 04.50</p>
-                              <p class="small">
-                                <span class="grey-text text-lighten-4">Flight:</span> IB 5786</p>
-                              <p class="small">
-                                <span class="grey-text text-lighten-4">Terminal:</span> B</p>
-                            </div>
-                          </div>
-                          <div class="col s6 m6 l6 center-align flight-state-two">
-                            <div class="flight-info">
-                              <p class="small">
-                                <span class="grey-text text-lighten-4">Arrive:</span> 08.50</p>
-                              <p class="small">
-                                <span class="grey-text text-lighten-4">Flight:</span> IB 5786</p>
-                              <p class="small">
-                                <span class="grey-text text-lighten-4">Terminal:</span> C</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col s12 m4 l4">
-                  <div id="profile-card" class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                      <img class="activator" src="assets/images/gallary/3.png" alt="user bg">
-                    </div>
-                    <div class="card-content">
-                      <img src="assets/images/avatar/avatar-7.png" alt="" class="circle responsive-img activator card-profile-image cyan lighten-1 padding-2">
-                      <a class="btn-floating activator btn-move-up waves-effect waves-light red accent-2 z-depth-4 right">
-                        <i class="material-icons">edit</i>
-                      </a>
-                      <span class="card-title activator grey-text text-darken-4">Roger Waters</span>
-                      <p>
-                        <i class="material-icons">perm_identity</i> Project Manager</p>
-                      <p>
-                        <i class="material-icons">perm_phone_msg</i> +1 (612) 222 8989</p>
-                      <p>
-                        <i class="material-icons">email</i> yourmail@domain.com</p>
-                    </div>
-                    <div class="card-reveal">
-                      <span class="card-title grey-text text-darken-4">Roger Waters
-                        <i class="material-icons right">close</i>
-                      </span>
-                      <p>Here is some more information about this card.</p>
-                      <p>
-                        <i class="material-icons">perm_identity</i> Project Manager</p>
-                      <p>
-                        <i class="material-icons">perm_phone_msg</i> +1 (612) 222 8989</p>
-                      <p>
-                        <i class="material-icons">email</i> yourmail@domain.com</p>
-                      <p>
-                        <i class="material-icons">cake</i> 18th June 1990
-                      </p>
-                      <p>
-                      </p>
-                      <p>
-                        <i class="material-icons">airplanemode_active</i> BAR - AUS
-                      </p>
-                      <p>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--card widgets end-->
             
             <!--work collections start-->
             <div id="work-collections">
@@ -967,31 +595,6 @@
     </div>
     <!-- END MAIN -->
     <!-- //////////////////////////////////////////////////////////////////////////// -->
-    <!-- START FOOTER -->
-    <footer class="page-footer gradient-45deg-light-blue-cyan">
-        <div class="footer-copyright">
-          <div class="container">
-            <span>Copyright ©
-              <script type="text/javascript">
-                document.write(new Date().getFullYear());
-              </script> <a class="grey-text text-lighten-2" href="http://themeforest.net/user/pixinvent/portfolio?ref=pixinvent" target="_blank">PIXINVENT</a> All rights reserved.</span>
-            <span class="right hide-on-small-only"> Design and Developed by <a class="grey-text text-lighten-2" href="https://pixinvent.com/">PIXINVENT</a></span>
-          </div>
-        </div>
-    </footer>
-    <!-- END FOOTER -->
-    <!-- ================================================
-    Scripts
-    ================================================ -->
-    <!-- jQuery Library -->
-    <script type="text/javascript" src="../assets/vendors/jquery-3.3.1.min.js"></script>
-    <!--materialize js-->
-    <script type="text/javascript" src="../assets/js/materialize.min.js"></script>
-    <!--scrollbar-->
-    <script type="text/javascript" src="../assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <!--plugins.js - Some Specific JS codes for Plugin Settings-->
-    <script type="text/javascript" src="../assets/js/plugins.js"></script>
-    <!--custom-script.js - Add your own theme custom JS-->
-    <script type="text/javascript" src="../assets/js/custom-script.js"></script>
-  </body>
-</html>
+
+
+<?php include "includes/footer.inc.php"; ?>

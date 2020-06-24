@@ -27,3 +27,6 @@ function escapeInjection($string) {
 
 // }
 
+function quotesQuery() {
+    
+}

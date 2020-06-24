@@ -28,7 +28,9 @@
 
         header("Location: profile.php?profile_id={$user_id}");
 
-      } elseif( $user_role == "admin" ) {
+      } 
+      
+      if( $user_role == "admin" ) {
   
           header("Location: admin/index.php?profile_id={$user_id}");
   
