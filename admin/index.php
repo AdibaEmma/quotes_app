@@ -407,7 +407,7 @@
             <!--    </div>-->
             <!--  </div>-->
             <!--</div>-->
-            <!--card stats end-->
+            <!--card stats end -->
             
             <!--card widgets start -->
             <div id="card-widgets">
@@ -779,7 +779,7 @@
                         </div>
                       </div>
                       <p>Use checkboxes when looking for yes or no answers.</p>
-                    </li>
+                    </li> 
                     <li class="collection-item border-none">
                       <div class="m-0">
                         <span class="font-weight-600">Show Task statistics</span>

@@ -89,7 +89,7 @@
                 <h1 class="logo-wrapper">
                   <a href="index.html" class="brand-logo darken-1">
                     <img src="assets/images/logo/materialize-logo.png" alt="materialize logo">
-                    <span class="logo-text hide-on-med-and-down">Materialize</span>
+                    <span class="logo-text hide-on-med-and-down">Tabular Rasa</span>
                   </a>
                 </h1>
               </li>
@@ -102,12 +102,14 @@
 
                 if(isset($_SESSION['user_id'])) {
 
-                $query = "SELECT * FROM users";
+                  $user_id = $_SESSION['user_id'];
+
+                $query = "SELECT * FROM users WHERE user_id = {$user_id}";
                 $username_query = mysqli_query($conn, $query);
 
                 while($row = mysqli_fetch_assoc($username_query)) {
 
-                $username = $row['username'];
+                $username = ucfirst($row['username']);
                 }
 
                 echo "<li class='welcome_address'>Welcome {$username}</li>";
@@ -128,6 +130,7 @@
                 if(isset($_SESSION['user_id'])) {
 
                   $user_id = $_SESSION['user_id'];
+                  
                   echo  "<li><a href='profile.php?profile_id=$user_id'>Profile</a></li>";
 
                   } 
@@ -148,7 +151,8 @@
                 ?>
 
               <?php 
-              if(isset($_SESSION['user_id'])) { ?>
+
+              if (isset($_SESSION['user_id'])) { ?>
               <li>
               <a class="btn waves-effect waves-light" href="logout.php">Logout</a>
               </li>

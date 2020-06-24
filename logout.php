@@ -1,12 +1,12 @@
+<? ob_start(); ?>
 <?php
 session_start();
 
-if(isset($_SESSION['user_id'])) {
+$_SESSION['user_id'] = null;
 
-    session_destroy();
+session_destroy();
 
-    header("Location: index.php");
-}
+header("Location: index.php");
 
 
 

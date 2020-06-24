@@ -3,6 +3,8 @@
 
 <?php
 
+  $error_msg = "";
+
   if(isset($_POST['login'])) {
 
    $username = $_POST['username'];
@@ -12,34 +14,57 @@
   $login_query = mysqli_query($conn, $query);
 
   while($row = mysqli_fetch_assoc($login_query)) {
-      $user_id= $row['user_id'];
+      $_SESSION['user_id'] = $user_id = $row['user_id'];
       $db_username = $row['username'];
       $db_password = $row['password'];
       $user_role = $row['user_role'];
   }
 
+  $password_verify = password_verify( $password, $db_password );
 
-  $_SESSION['user_id'] = $user_id;
+  if(  $username == $db_username && $password_verify ) {
+
+      if( $user_role == "subscriber" ) {
+
+        header("Location: profile.php?profile_id={$user_id}");
+
+      } elseif( $user_role == "admin" ) {
+  
+          header("Location: admin/index.php?profile_id={$user_id}");
+  
+        } 
     
-  if(  $username == $db_username && $password == $db_password && $user_role == "subscriber" ) {
-
-      header("Location: profile.php?profile_id={$user_id}");
-
-  } elseif(  $username == $db_username && $password == $db_password && $user_role == "admin" ) {
-
-      header("Location: admin/index.php?profile_id={$user_id}");
- 
-  } else {
-
-      echo "<h1 class='center-align red-text'>Login Error</h1>";
-
-  }
-
-
-  }
-
-
+  
+  }  else {
+  
+  $error_msg = "<h5 class='center-align red-text'>Invalid Username or Password</h5>";
+  
+    }
+  
+}
+  
 ?>
+
+<div id="breadcrumbs-wrapper">
+          <!-- Search for small screen
+          <div class="header-search-wrapper grey lighten-2 hide-on-large-only">
+            <input type="text" name="Search" class="header-search-input z-depth-2" placeholder="Explore Materialize">
+          </div> -->
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col s10 m6 l6">
+                <h5 class="breadcrumbs-title">User Profile</h5>
+                <ol class="breadcrumbs">
+                  <li><a href="index.php">Homepage</a></li>
+                  <li class="active">User Login</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+    </div>
+
+<?php echo $error_msg; ?>
+
     <!-- Form with validation -->
     <div class="col s10 m10 l6">
                   <div class="card-panel login">
@@ -66,7 +91,7 @@
                                 <i class="material-icons right">send</i>
                               </button>
                             </div>
-                            <div>Don't have an account yet? why not <a href="registration.php">signup</a> with us.</div>
+                            <div>Don't have an account yet? why not <a href="registration.php">Create an account</a> with us.</div>
                           </div>
                         </div>
                       </form>

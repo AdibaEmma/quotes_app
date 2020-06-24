@@ -53,13 +53,17 @@ if(isset($_POST['register'])) {
 			}
   }
   
-  if(!empty($_POST['password'])) {
-    if(strlen($_POST['password'] <= 3)) {
-      $errors['password'] = "Must be greater than 3 characters";
+  if(empty($_POST['password'])) {
+
+      $errors['password'] = "Your account may be vulnerable, please add a password";
+      
     }  else {
+
         $password = escapeInjection($_POST['password']);
+
+        $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
     }
-  }
+
   
       if(strlen($_POST['bio']) > 255){
 				$errors['bio'] = 'max length exceeded';
@@ -82,6 +86,7 @@ if(isset($_POST['register'])) {
 
   }
 
+
 }
 
 
@@ -90,7 +95,7 @@ if(isset($_POST['register'])) {
     <!-- Registration Form -->
     <div class="col s12 m12 l6">
                   <div class="card-panel login">
-                    <h4 class="header2">Registration</h4>
+                    <h4 class="header2 center-align">Registration</h4>
                     <div class="row">
                       <form class="col s12" action="" method="POST">
                         <div class="row">

@@ -48,7 +48,7 @@ if(isset($_POST['upload'])) {
 
     $user_id = $_SESSION['user_id']; 
 
-    $query = "SELECT * FROM users";
+  $query = "SELECT * FROM users WHERE user_id = {$user_id}";
     $username_query = mysqli_query($conn, $query);
 
     while($row = mysqli_fetch_assoc($username_query)) {
