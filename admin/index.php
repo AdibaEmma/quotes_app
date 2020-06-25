@@ -12,22 +12,6 @@ if(isset($_GET['profile_id'])) {
 
   $user_id = $_GET['profile_id'];
 
-  $query = "SELECT * FROM quotes";
-  $select_all_quotes = mysqli_query($conn, $query);
-
-  $total_quotes = mysqli_num_rows($select_all_quotes);
-
-  while($row = mysqli_fetch_assoc( $select_all_quotes )) {
-
-      $quote = $row['quote'];
-      $quote_author = $row['quote_author'];
-      $quote_image = $row['quote_image'];
-      $uploaded_by = $row['username'];
-      $upload_date = $row['upload_date'];
-
-  }
-
-  
 }
 
 
@@ -74,29 +58,29 @@ if(isset($_GET['profile_id'])) {
                     </a>
                 </li>
                 <li class="bold">
-                  <a href="profile.php" class="waves-effect waves-cyan">
-                      <i class="material-icons">format_color_text</i>
-                      <span class="nav-text">Forms</span>
+                  <a href="profile.php?profile_id=<?php echo $user_id; ?>" class="waves-effect waves-cyan">
+                      <i class="material-icons">perm_identity</i>
+                      <span class="nav-text">Profile</span>
                     </a>
                 </li>
                 <li class="bold">
                   <a href="view_all_quotes.php" class="waves-effect waves-cyan">
-                      <i class="material-icons">cast</i>
-                      <span class="nav-text">Cards</span>
+                      <i class="material-icons">comment</i>
+                      <span class="nav-text">View All Quotes</span>
                     </a>
                 </li>
                 
                 <li class="bold">
                   <a href="comments.php" class="waves-effect waves-cyan">
                       <i class="material-icons">format_size</i>
-                      <span class="nav-text">Typography</span>
+                      <span class="nav-text">Comments</span>
                     </a>
                 </li>
       
                 <li class="bold">
                   <a href="table-basic.html" class="waves-effect waves-cyan">
                       <i class="material-icons">border_all</i>
-                      <span class="nav-text">Table</span>
+                      <span class="nav-text">Users</span>
                     </a>
                 </li>
                 
@@ -120,10 +104,18 @@ if(isset($_GET['profile_id'])) {
                   <div class="card gradient-45deg-light-blue-cyan gradient-shadow min-height-100 white-text">
                     <div class="padding-4">
                       <div class="col s7 m7">
-                        <i class="material-icons background-round mt-5">add_shopping_cart</i>
+                        <i class="material-icons background-round mt-5">comment</i>
                         <p>Quotes</p>
                       </div>
                       <div class="col s5 m5 right-align">
+                      <?php
+                      $query = "SELECT * FROM quotes";
+                      $select_all_quotes = mysqli_query($conn, $query);
+                      $total_quotes = mysqli_num_rows($select_all_quotes);
+
+
+
+                      ?>
                         <h5 class="mb-0">690</h5>
                         <p class="no-margin">New</p>
                         <p><?php echo $total_quotes; ?></p>
@@ -139,9 +131,24 @@ if(isset($_GET['profile_id'])) {
                         <p>Comments</p>
                       </div>
                       <div class="col s5 m5 right-align">
+                      <?php
+                      $query = "SELECT * FROM comments";
+                      $select_all_comments = mysqli_query($conn, $query);
+                      if($select_all_comments) {
+
+                        $total_comments = mysqli_num_rows($select_all_comments);
+
+                      } else {
+                        $total_comments = 0;
+                      }
+                      
+
+                      
+
+                      ?>
                         <h5 class="mb-0">1885</h5>
                         <p class="no-margin">New</p>
-                        <p>1,12,900</p>
+                        <p><?php echo $total_comments; ?></p>
                       </div>
                     </div>
                   </div>
@@ -165,7 +172,7 @@ if(isset($_GET['profile_id'])) {
                   <div class="card gradient-45deg-green-teal gradient-shadow min-height-100 white-text">
                     <div class="padding-4">
                       <div class="col s7 m7">
-                        <i class="material-icons background-round mt-5">attach_money</i>
+                        <i class="material-icons background-round mt-5">face</i>
                         <p>Admins</p>
                       </div>
                       <div class="col s5 m5 right-align">
@@ -178,138 +185,93 @@ if(isset($_GET['profile_id'])) {
                 </div>
               </div>
             </div>
-            
-            <!--work collections start-->
-            <div id="work-collections">
+
+              <!--work collections start-->
+              <div id="work-collections">
               <div class="row">
-                <div class="col s12 m12 l6">
-                  <ul id="projects-collection" class="collection z-depth-1">
-                    <li class="collection-item avatar">
-                      <i class="material-icons cyan circle">card_travel</i>
-                      <h6 class="collection-header m-0">Projects</h6>
-                      <p>Your Favorites</p>
-                    </li>
+              <div class="col s12 m12 l6">
+              <ul id="projects-collection" class="collection z-depth-1">
+              <li class="collection-item avatar">
+              <i class="material-icons cyan circle">card_travel</i>
+              <h6 class="collection-header m-0">Quotes</h6>
+              <p>Latest</p>
+              </li>
+
+            <?php 
+              $colors = array('cyan', 'red accent-2', 'teal accent-4', 'deep-orange accent-2');
+           
+             $i = 0;
+                $query = "SELECT * FROM quotes ORDER BY quote_id DESC LIMIT 4";
+                $select_latest_quotes = mysqli_query($conn, $query);
+
+                while($row = mysqli_fetch_assoc( $select_latest_quotes )) {
+
+                $quote = $row['quote'];
+                $quote_author = $row['quote_author'];
+                $quote_image = $row['quote_image'];
+                $uploaded_by = $row['username'];
+                $upload_date = $row['upload_date'];
+
+                ?>
+           
                     <li class="collection-item">
                       <div class="row">
                         <div class="col s9">
-                          <p class="collections-title">Web App</p>
-                          <p class="collections-content">AEC Company</p>
+                          <p class="collections-title truncate"><?php echo $quote; ?></p>
+                          <p class="collections-content"><?php echo $quote_author; ?></p>
                         </div>
                         <div class="col s3">
-                          <span class="task-cat cyan">Development</span>
+                       <span class="task-cat <?php echo $colors[$i]; ?>"><?php echo $uploaded_by;?></span>
                         </div>
                       </div>
                     </li>
-                    <li class="collection-item">
-                      <div class="row">
-                        <div class="col s9">
-                          <p class="collections-title">Mobile App for Social</p>
-                          <p class="collections-content">iSocial App</p>
-                        </div>
-                        <div class="col s3">
-                          <span class="task-cat red accent-2">UI/UX</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="collection-item">
-                      <div class="row">
-                        <div class="col s9">
-                          <p class="collections-title">Website</p>
-                          <p class="collections-content">MediTab</p>
-                        </div>
-                        <div class="col s3">
-                          <span class="task-cat teal accent-4">Marketing</span>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="collection-item">
-                      <div class="row">
-                        <div class="col s9">
-                          <p class="collections-title">AdWord campaign</p>
-                          <p class="collections-content">True Line</p>
-                        </div>
-                        <div class="col s3">
-                          <span class="task-cat deep-orange accent-2">SEO</span>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col s12 m12 l6">
+                  
+
+             <?php $i++; } ?>
+
+            </ul>
+            </div>
+                  <div class="col s12 m12 l6">
                   <ul id="issues-collection" class="collection z-depth-1">
                     <li class="collection-item avatar">
-                      <i class="material-icons red accent-2 circle">bug_report</i>
-                      <h6 class="collection-header m-0">Issues</h6>
-                      <p>Assigned to you</p>
+                      <i class="material-icons red accent-2 circle">perm_identity</i>
+                      <h6 class="collection-header m-0">Users</h6>
+                      <p>With approved quotes</p>
                     </li>
+
+                    <?php 
+                      $colors = array('deep-orange accent-2', 'cyan', 'red accent-2', 'teal accent-4');
+
+                      $i = 0;
+
+                      $query = "SELECT * FROM users ORDER BY user_id DESC LIMIT 4";
+                      $select_all_users = mysqli_query($conn, $query);
+
+                      while($row = mysqli_fetch_assoc( $select_all_users )) {
+                            $user_id = $row['user_id'];
+                            $firstname = $row['firstname'];
+                            $lastname = $row['lastname'];
+                            $username = $row['username'];
+                            $user_role = $row['user_role'];
+                    
+                  ?>
                     <li class="collection-item">
                       <div class="row">
                         <div class="col s7">
                           <p class="collections-title">
-                            <strong>#102</strong> Home Page</p>
-                          <p class="collections-content">Web Project</p>
+                            <strong>#<?php echo $user_id; ?></strong><?php echo $firstname . " " . $lastname; ?></p>
+                          <p class="collections-content"><?php echo $username; ?></p>
                         </div>
                         <div class="col s2">
-                          <span class="task-cat deep-orange accent-2">P1</span>
+                          <span class="task-cat <?php echo $colors[$i]; ?>"><?php echo $user_role; ?></span>
                         </div>
                         <div class="col s3">
-                          <div class="progress">
-                            <div class="determinate" style="width: 70%"></div>
-                          </div>
+                            <div class="" style="width: 70%"><?php echo 2; ?> Quotes</div>
                         </div>
                       </div>
                     </li>
-                    <li class="collection-item">
-                      <div class="row">
-                        <div class="col s7">
-                          <p class="collections-title">
-                            <strong>#108</strong> API Fix</p>
-                          <p class="collections-content">API Project </p>
-                        </div>
-                        <div class="col s2">
-                          <span class="task-cat cyan">P2</span>
-                        </div>
-                        <div class="col s3">
-                          <div class="progress">
-                            <div class="determinate" style="width: 40%"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="collection-item">
-                      <div class="row">
-                        <div class="col s7">
-                          <p class="collections-title">
-                            <strong>#205</strong> Profile page css</p>
-                          <p class="collections-content">New Project </p>
-                        </div>
-                        <div class="col s2">
-                          <span class="task-cat red accent-2">P3</span>
-                        </div>
-                        <div class="col s3">
-                          <div class="progress">
-                            <div class="determinate" style="width: 95%"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li class="collection-item">
-                      <div class="row">
-                        <div class="col s7">
-                          <p class="collections-title">
-                            <strong>#188</strong> SAP Changes</p>
-                          <p class="collections-content">SAP Project</p>
-                        </div>
-                        <div class="col s2">
-                          <span class="task-cat teal accent-4">P1</span>
-                        </div>
-                        <div class="col s3">
-                          <div class="progress">
-                            <div class="determinate" style="width: 10%"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
+
+                <?php $i++; } ?>
                   </ul>
                 </div>
               </div>
