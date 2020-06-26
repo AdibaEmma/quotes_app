@@ -1,11 +1,53 @@
 <?php include "includes/header.inc.php"; ?>
 <?php include "../includes/db_connect.php"; ?>
 
+
+<?php 
+
+if(isset($_GET['profile_id'])) {
+
+  $user_id = $_GET['profile_id'];
+
+}
+
+
+  $query = "SELECT * FROM users WHERE user_id = $user_id";
+  $select_user_query = mysqli_query($conn, $query);
+  
+  while($row = mysqli_fetch_assoc( $select_user_query )) {
+
+    $firstname = $row['firstname'];
+    $lastname = $row['lastname'];
+    $username = $row['username'];
+    $user_role = $row['user_role'];
+    $email = $row['user_email'];
+    $bio = $row['user_bio'];
+    $registration_date = $row['date_created'];
+
+    $registration_date = date('d-m-Y', strtotime($registration_date));
+  }
+
+?>
+
+  <!-- Start Page Loading -->
+  <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
+    </div>
+    
   <!-- START HEADER -->
   <header id="header" class="page-topbar">
     
-    <!-- start header nav-->
+    <!-- header nav-->
    <?php include "includes/navigation.inc.php"; ?>
+
+  <!-- START MAIN -->
+  <div id="main">
+      <!-- START WRAPPER -->
+  <div class="wrapper">
+  <!-- sidebar -->
+  <?php include "includes/sidebar.inc.php"; ?>
 
 <div id="card-widgets">
 <div class="row">
@@ -19,39 +61,34 @@
                       <a class="btn-floating activator btn-move-up waves-effect waves-light red accent-2 z-depth-4 right">
                         <i class="material-icons">edit</i>
                       </a>
-                      <span class="card-title activator grey-text text-darken-4">Roger Waters</span>
+                      <span class="card-title activator grey-text text-darken-4"><?php echo $firstname. " " . $lastname; ?></span>
                       <p>
-                        <i class="material-icons">perm_identity</i> Project Manager</p>
-                      <p>
-                        <i class="material-icons">perm_phone_msg</i> +1 (612) 222 8989</p>
-                      <p>
-                        <i class="material-icons">email</i> yourmail@domain.com</p>
+                        <i class="material-icons">perm_identity</i><?php echo $user_role; ?></p>
+                      
+                      <p><i class="material-icons">email</i><?php echo $email; ?></p>
                     </div>
                     <div class="card-reveal">
-                      <span class="card-title grey-text text-darken-4">Roger Waters
+                      <span class="card-title grey-text text-darken-4"><?php echo $firstname. " " . $lastname; ?>
                         <i class="material-icons right">close</i>
                       </span>
-                      <p>Here is some more information about this card.</p>
+                      <p><?php echo $bio; ?></p>
                       <p>
-                        <i class="material-icons">perm_identity</i> Project Manager</p>
+                        <i class="material-icons">perm_identity</i><?php echo $user_role; ?></p>
+                      
                       <p>
-                        <i class="material-icons">perm_phone_msg</i> +1 (612) 222 8989</p>
+                        <i class="material-icons">email</i><?php echo $email; ?></p>
                       <p>
-                        <i class="material-icons">email</i> yourmail@domain.com</p>
-                      <p>
-                        <i class="material-icons">cake</i> 18th June 1990
-                      </p>
-                      <p>
-                      </p>
-                      <p>
-                        <i class="material-icons">airplanemode_active</i> BAR - AUS
-                      </p>
-                      <p>
+                        <i class="material-icons">cake</i>Registration Date: <?php echo $registration_date; ?>
                       </p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+</aside>
+        <!-- END RIGHT SIDEBAR NAV-->
+</div>
+      <!-- END WRAPPER -->
+</div>
+<!-- END MAIN -->
 <?php include "includes/footer.inc.php"; ?>
